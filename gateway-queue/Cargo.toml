@@ -26,6 +26,7 @@ twilight-http = { default-features = false, optional = true, path = "../http" }
 static_assertions = { default-features = false, version = "1" }
 
 [features]
+twilight-http = ["dep:twilight-http"]
 default = ["rustls-native-roots"]
 native = ["dep:twilight-http", "twilight-http?/native"]
 rustls-native-roots = ["dep:twilight-http", "twilight-http?/rustls-native-roots"]
