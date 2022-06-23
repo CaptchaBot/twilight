@@ -14,53 +14,53 @@ use twilight_model::{
 impl InMemoryCache {
     fn cache_guild(&self, guild: Guild) {
         let Guild {
-            afk_channel_id,
-            afk_timeout,
-            application_id,
+            afk_channel_id: _,
+            afk_timeout: _,
+            application_id: _,
             approximate_member_count: _,
             approximate_presence_count: _,
-            banner,
+            banner: _,
             channels,
-            default_message_notifications,
-            description,
-            discovery_splash,
+            default_message_notifications: _,
+            description: _,
+            discovery_splash: _,
             emojis,
-            explicit_content_filter,
+            explicit_content_filter: _,
             features,
             icon,
             id,
             joined_at,
-            large,
-            max_members,
-            max_presences,
-            max_video_channel_users,
-            member_count,
+            large: _,
+            max_members: _,
+            max_presences: _,
+            max_video_channel_users: _,
+            member_count: _,
             members,
-            mfa_level,
+            mfa_level: _,
             name,
-            nsfw_level,
+            nsfw_level: _,
             owner_id,
-            owner,
+            owner: _,
             permissions,
-            preferred_locale,
-            premium_progress_bar_enabled,
-            premium_subscription_count,
-            premium_tier,
+            preferred_locale: _,
+            premium_progress_bar_enabled: _,
+            premium_subscription_count: _,
+            premium_tier: _,
             presences,
             roles,
-            rules_channel_id,
-            splash,
+            rules_channel_id: _,
+            splash: _,
             stage_instances,
             stickers,
-            system_channel_flags,
-            system_channel_id,
+            system_channel_flags: _,
+            system_channel_id: _,
             threads,
             unavailable,
-            vanity_url_code,
-            verification_level,
+            vanity_url_code: _,
+            verification_level: _,
             voice_states,
-            widget_channel_id,
-            widget_enabled,
+            widget_channel_id: _,
+            widget_enabled: _,
         } = guild;
 
         // The map and set creation needs to occur first, so caching states and
@@ -120,41 +120,41 @@ impl InMemoryCache {
 
         let guild = CachedGuild {
             id,
-            afk_channel_id,
-            afk_timeout,
-            application_id,
-            banner,
-            default_message_notifications,
-            description,
-            discovery_splash,
-            explicit_content_filter,
+            // afk_channel_id,
+            // afk_timeout,
+            // application_id,
+            // banner,
+            // default_message_notifications,
+            // description,
+            // discovery_splash,
+            // explicit_content_filter,
             features,
             icon,
             joined_at,
-            large,
-            max_members,
-            max_presences,
-            max_video_channel_users,
-            member_count,
-            mfa_level,
+            // large,
+            // max_members,
+            // max_presences,
+            // max_video_channel_users,
+            // member_count,
+            // mfa_level,
             name,
-            nsfw_level,
-            owner,
+            // nsfw_level,
+            // owner,
             owner_id,
             permissions,
-            preferred_locale,
-            premium_progress_bar_enabled,
-            premium_subscription_count,
-            premium_tier,
-            rules_channel_id,
-            splash,
-            system_channel_id,
-            system_channel_flags,
+            // preferred_locale,
+            // premium_progress_bar_enabled,
+            // premium_subscription_count,
+            // premium_tier,
+            // rules_channel_id,
+            // splash,
+            // system_channel_id,
+            // system_channel_flags,
             unavailable,
-            verification_level,
-            vanity_url_code,
-            widget_channel_id,
-            widget_enabled,
+            // verification_level,
+            // vanity_url_code,
+            // widget_channel_id,
+            // widget_enabled,
         };
 
         self.unavailable_guilds.remove(&guild.id());
@@ -248,32 +248,32 @@ impl UpdateCache for GuildUpdate {
         }
 
         if let Some(mut guild) = cache.guilds.get_mut(&self.0.id) {
-            guild.afk_channel_id = self.afk_channel_id;
-            guild.afk_timeout = self.afk_timeout;
-            guild.banner = self.banner;
-            guild.default_message_notifications = self.default_message_notifications;
-            guild.description = self.description.clone();
+            // guild.afk_channel_id = self.afk_channel_id;
+            // guild.afk_timeout = self.afk_timeout;
+            // guild.banner = self.banner;
+            // guild.default_message_notifications = self.default_message_notifications;
+            // guild.description = self.description.clone();
             guild.features = self.features.clone();
             guild.icon = self.icon;
-            guild.max_members = self.max_members;
-            guild.max_presences = Some(self.max_presences.unwrap_or(25000));
-            guild.mfa_level = self.mfa_level;
-            guild.name = self.name.clone();
-            guild.nsfw_level = self.nsfw_level;
-            guild.owner = self.owner;
+            // guild.max_members = self.max_members;
+            // guild.max_presences = Some(self.max_presences.unwrap_or(25000));
+            // guild.mfa_level = self.mfa_level;
+            // guild.name = self.name.clone();
+            // guild.nsfw_level = self.nsfw_level;
+            // guild.owner = self.owner;
             guild.owner_id = self.owner_id;
             guild.permissions = self.permissions;
-            guild.preferred_locale = self.preferred_locale.clone();
-            guild.premium_tier = self.premium_tier;
-            guild
-                .premium_subscription_count
-                .replace(self.premium_subscription_count.unwrap_or_default());
-            guild.splash = self.splash;
-            guild.system_channel_id = self.system_channel_id;
-            guild.verification_level = self.verification_level;
-            guild.vanity_url_code = self.vanity_url_code.clone();
-            guild.widget_channel_id = self.widget_channel_id;
-            guild.widget_enabled = self.widget_enabled;
+            // guild.preferred_locale = self.preferred_locale.clone();
+            // guild.premium_tier = self.premium_tier;
+            // guild
+            //     .premium_subscription_count
+            //     .replace(self.premium_subscription_count.unwrap_or_default());
+            // guild.splash = self.splash;
+            // guild.system_channel_id = self.system_channel_id;
+            // guild.verification_level = self.verification_level;
+            // guild.vanity_url_code = self.vanity_url_code.clone();
+            // guild.widget_channel_id = self.widget_channel_id;
+            // guild.widget_enabled = self.widget_enabled;
         };
     }
 }
@@ -286,7 +286,7 @@ mod tests {
     use crate::test;
     use twilight_model::{
         channel::{
-            thread::{AutoArchiveDuration, ThreadMember, ThreadMetadata},
+            thread::{AutoArchiveDuration, ThreadMetadata},
             Channel, ChannelType,
         },
         gateway::payload::incoming::{MemberAdd, MemberRemove, UnavailableGuild},
@@ -305,66 +305,66 @@ mod tests {
         let timestamp = Timestamp::from_str(DATETIME)?;
 
         let channels = Vec::from([Channel {
-            application_id: None,
-            bitrate: None,
-            default_auto_archive_duration: None,
+            // application_id: None,
+            // bitrate: None,
+            // default_auto_archive_duration: None,
             guild_id: None,
-            icon: None,
+            // icon: None,
             id: Id::new(111),
-            invitable: None,
+            // invitable: None,
             kind: ChannelType::GuildText,
             last_message_id: None,
-            last_pin_timestamp: None,
-            member: None,
-            member_count: None,
-            message_count: None,
+            // last_pin_timestamp: None,
+            // member: None,
+            // member_count: None,
+            // message_count: None,
             name: Some("guild channel with no guild id".to_owned()),
-            newly_created: None,
-            nsfw: Some(true),
+            // newly_created: None,
+            // nsfw: Some(true),
             owner_id: None,
             parent_id: None,
             permission_overwrites: Some(Vec::new()),
             position: Some(1),
             rate_limit_per_user: None,
-            recipients: None,
-            rtc_region: None,
+            // recipients: None,
+            // rtc_region: None,
             thread_metadata: None,
-            topic: None,
-            user_limit: None,
-            video_quality_mode: None,
+            // topic: None,
+            // user_limit: None,
+            // video_quality_mode: None,
         }]);
 
         let threads = Vec::from([Channel {
-            application_id: None,
-            bitrate: None,
-            default_auto_archive_duration: None,
+            // application_id: None,
+            // bitrate: None,
+            // default_auto_archive_duration: None,
             guild_id: None,
-            icon: None,
+            // icon: None,
             id: Id::new(222),
-            invitable: None,
+            // invitable: None,
             kind: ChannelType::GuildPublicThread,
             last_message_id: None,
-            last_pin_timestamp: None,
-            member: Some(ThreadMember {
-                flags: 0,
-                id: Some(Id::new(1)),
-                join_timestamp: timestamp,
-                member: None,
-                presence: None,
-                user_id: Some(Id::new(2)),
-            }),
-            member_count: Some(0),
-            message_count: Some(0),
+            // last_pin_timestamp: None,
+            // member: Some(ThreadMember {
+            //     flags: 0,
+            //     id: Some(Id::new(1)),
+            //     join_timestamp: timestamp,
+            //     member: None,
+            //     presence: None,
+            //     user_id: Some(Id::new(2)),
+            // }),
+            // member_count: Some(0),
+            // message_count: Some(0),
             name: Some("guild thread with no guild id".to_owned()),
-            newly_created: None,
-            nsfw: None,
+            // newly_created: None,
+            // nsfw: None,
             owner_id: None,
             parent_id: None,
             permission_overwrites: None,
             position: None,
             rate_limit_per_user: None,
-            recipients: None,
-            rtc_region: None,
+            // recipients: None,
+            // rtc_region: None,
             thread_metadata: Some(ThreadMetadata {
                 archived: false,
                 auto_archive_duration: AutoArchiveDuration::Hour,
@@ -373,9 +373,9 @@ mod tests {
                 invitable: None,
                 locked: false,
             }),
-            topic: None,
-            user_limit: None,
-            video_quality_mode: None,
+            // topic: None,
+            // user_limit: None,
+            // video_quality_mode: None,
         }]);
 
         let guild = Guild {
@@ -508,11 +508,11 @@ mod tests {
         cache.update(&GuildCreate(guild));
         cache.update(&MemberAdd(member));
 
-        assert_eq!(cache.guild(guild_id).unwrap().member_count, Some(2));
+        // assert_eq!(cache.guild(guild_id).unwrap().member_count, Some(2));
 
         cache.update(&MemberRemove { guild_id, user });
 
-        assert_eq!(cache.guild(guild_id).unwrap().member_count, Some(1));
+        // assert_eq!(cache.guild(guild_id).unwrap().member_count, Some(1));
     }
 
     #[test]

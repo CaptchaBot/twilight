@@ -120,13 +120,13 @@ impl Display for DiscriminatorDisplay {
 
 #[derive(Clone, Debug, Deserialize, Eq, Hash, PartialEq, Serialize)]
 pub struct User {
-    /// Accent color of the user's banner.
-    ///
-    /// This is an integer representation of a hexadecimal color code.
-    pub accent_color: Option<u32>,
+    // /// Accent color of the user's banner.
+    // ///
+    // /// This is an integer representation of a hexadecimal color code.
+    // pub accent_color: Option<u32>,
     pub avatar: Option<ImageHash>,
-    /// Hash of the user's banner image.
-    pub banner: Option<ImageHash>,
+    // /// Hash of the user's banner image.
+    // pub banner: Option<ImageHash>,
     #[serde(default)]
     pub bot: bool,
     /// Discriminator used to differentiate people with the same username.
@@ -138,25 +138,25 @@ pub struct User {
     /// the type Discord's API uses.
     #[serde(with = "discriminator")]
     pub discriminator: u16,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub email: Option<String>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub flags: Option<UserFlags>,
+    // #[serde(skip_serializing_if = "Option::is_none")]
+    // pub email: Option<String>,
+    // #[serde(skip_serializing_if = "Option::is_none")]
+    // pub flags: Option<UserFlags>,
     pub id: Id<UserMarker>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub locale: Option<String>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub mfa_enabled: Option<bool>,
+    // #[serde(skip_serializing_if = "Option::is_none")]
+    // pub locale: Option<String>,
+    // #[serde(skip_serializing_if = "Option::is_none")]
+    // pub mfa_enabled: Option<bool>,
     #[serde(rename = "username")]
     pub name: String,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub premium_type: Option<PremiumType>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub public_flags: Option<UserFlags>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub system: Option<bool>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub verified: Option<bool>,
+    // #[serde(skip_serializing_if = "Option::is_none")]
+    // pub premium_type: Option<PremiumType>,
+    // #[serde(skip_serializing_if = "Option::is_none")]
+    // pub public_flags: Option<UserFlags>,
+    // #[serde(skip_serializing_if = "Option::is_none")]
+    // pub system: Option<bool>,
+    // #[serde(skip_serializing_if = "Option::is_none")]
+    // pub verified: Option<bool>,
 }
 
 impl User {
@@ -170,7 +170,7 @@ impl User {
 
 #[cfg(test)]
 mod tests {
-    use super::{DiscriminatorDisplay, PremiumType, User, UserFlags};
+    use super::{DiscriminatorDisplay, User};
     use crate::{id::Id, test::image_hash};
     use serde_test::Token;
     use static_assertions::assert_impl_all;
@@ -298,21 +298,21 @@ mod tests {
     #[test]
     fn test_user() {
         let value = User {
-            accent_color: None,
+            // accent_color: None,
             avatar: Some(image_hash::AVATAR),
-            banner: Some(image_hash::BANNER),
+            // banner: Some(image_hash::BANNER),
             bot: false,
             discriminator: 1,
-            email: Some("address@example.com".to_owned()),
-            flags: Some(UserFlags::PREMIUM_EARLY_SUPPORTER | UserFlags::VERIFIED_DEVELOPER),
+            // email: Some("address@example.com".to_owned()),
+            // flags: Some(UserFlags::PREMIUM_EARLY_SUPPORTER | UserFlags::VERIFIED_DEVELOPER),
             id: Id::new(1),
-            locale: Some("en-us".to_owned()),
-            mfa_enabled: Some(true),
+            // locale: Some("en-us".to_owned()),
+            // mfa_enabled: Some(true),
             name: "test".to_owned(),
-            premium_type: Some(PremiumType::Nitro),
-            public_flags: Some(UserFlags::PREMIUM_EARLY_SUPPORTER | UserFlags::VERIFIED_DEVELOPER),
-            system: None,
-            verified: Some(true),
+            // premium_type: Some(PremiumType::Nitro),
+            // public_flags: Some(UserFlags::PREMIUM_EARLY_SUPPORTER | UserFlags::VERIFIED_DEVELOPER),
+            // system: None,
+            // verified: Some(true),
         };
 
         // Deserializing a user with a string discriminator (which Discord
@@ -328,21 +328,21 @@ mod tests {
     #[test]
     fn test_user_complete() {
         let value = User {
-            accent_color: None,
+            // accent_color: None,
             avatar: Some(image_hash::AVATAR),
-            banner: Some(image_hash::BANNER),
+            // banner: Some(image_hash::BANNER),
             bot: false,
             discriminator: 1,
-            email: Some("address@example.com".to_owned()),
-            flags: Some(UserFlags::PREMIUM_EARLY_SUPPORTER | UserFlags::VERIFIED_DEVELOPER),
+            // email: Some("address@example.com".to_owned()),
+            // flags: Some(UserFlags::PREMIUM_EARLY_SUPPORTER | UserFlags::VERIFIED_DEVELOPER),
             id: Id::new(1),
-            locale: Some("en-us".to_owned()),
-            mfa_enabled: Some(true),
+            // locale: Some("en-us".to_owned()),
+            // mfa_enabled: Some(true),
             name: "test".to_owned(),
-            premium_type: Some(PremiumType::Nitro),
-            public_flags: Some(UserFlags::PREMIUM_EARLY_SUPPORTER | UserFlags::VERIFIED_DEVELOPER),
-            system: Some(true),
-            verified: Some(true),
+            // premium_type: Some(PremiumType::Nitro),
+            // public_flags: Some(UserFlags::PREMIUM_EARLY_SUPPORTER | UserFlags::VERIFIED_DEVELOPER),
+            // system: Some(true),
+            // verified: Some(true),
         };
 
         // Deserializing a user with a string discriminator (which Discord

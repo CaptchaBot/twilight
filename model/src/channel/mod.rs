@@ -28,13 +28,11 @@ pub use self::{
 };
 
 use crate::{
-    channel::thread::{AutoArchiveDuration, ThreadMember, ThreadMetadata},
+    channel::thread::ThreadMetadata,
     id::{
-        marker::{ApplicationMarker, ChannelMarker, GuildMarker, MessageMarker, UserMarker},
+        marker::{ChannelMarker, GuildMarker, MessageMarker, UserMarker},
         Id,
     },
-    user::User,
-    util::{ImageHash, Timestamp},
 };
 use serde::{Deserialize, Serialize};
 use std::fmt::{Display, Formatter, Result as FmtResult};
@@ -71,26 +69,26 @@ impl Display for ConversionError {
 /// [Discord Docs/Channel]: https://discord.com/developers/docs/resources/channel
 #[derive(Clone, Debug, Deserialize, Eq, Hash, PartialEq, Serialize)]
 pub struct Channel {
-    /// ID of the application that created the channel.
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub application_id: Option<Id<ApplicationMarker>>,
-    /// Bitrate setting of audio channels.
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub bitrate: Option<u64>,
-    /// Default duration before the channel's threads archive.
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub default_auto_archive_duration: Option<AutoArchiveDuration>,
+    // /// ID of the application that created the channel.
+    // #[serde(skip_serializing_if = "Option::is_none")]
+    // pub application_id: Option<Id<ApplicationMarker>>,
+    // /// Bitrate setting of audio channels.
+    // #[serde(skip_serializing_if = "Option::is_none")]
+    // pub bitrate: Option<u64>,
+    // /// Default duration before the channel's threads archive.
+    // #[serde(skip_serializing_if = "Option::is_none")]
+    // pub default_auto_archive_duration: Option<AutoArchiveDuration>,
     /// ID of the guild the channel is in.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub guild_id: Option<Id<GuildMarker>>,
-    /// Hash of the channel's icon.
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub icon: Option<ImageHash>,
+    // /// Hash of the channel's icon.
+    // #[serde(skip_serializing_if = "Option::is_none")]
+    // pub icon: Option<ImageHash>,
     /// ID of the channel.
     pub id: Id<ChannelMarker>,
-    /// Whether users can be invited.
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub invitable: Option<bool>,
+    // /// Whether users can be invited.
+    // #[serde(skip_serializing_if = "Option::is_none")]
+    // pub invitable: Option<bool>,
     /// Type of the channel.
     ///
     /// This can be used to determine what fields *might* be available.
@@ -99,33 +97,33 @@ pub struct Channel {
     /// ID of the last message sent in the channel.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub last_message_id: Option<Id<MessageMarker>>,
-    /// ID of the last message pinned in the channel.
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub last_pin_timestamp: Option<Timestamp>,
-    /// Member that created the channel.
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub member: Option<ThreadMember>,
-    /// Number of members in the channel.
-    ///
-    /// At most a value of 50 is provided although the real number may be
-    /// higher.
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub member_count: Option<u8>,
-    /// Number of messages in the channel.
-    ///
-    /// At most a value of 50 is provided although the real number may be
-    /// higher.
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub message_count: Option<u8>,
+    // /// ID of the last message pinned in the channel.
+    // #[serde(skip_serializing_if = "Option::is_none")]
+    // pub last_pin_timestamp: Option<Timestamp>,
+    // /// Member that created the channel.
+    // #[serde(skip_serializing_if = "Option::is_none")]
+    // pub member: Option<ThreadMember>,
+    // /// Number of members in the channel.
+    // ///
+    // /// At most a value of 50 is provided although the real number may be
+    // /// higher.
+    // #[serde(skip_serializing_if = "Option::is_none")]
+    // pub member_count: Option<u8>,
+    // /// Number of messages in the channel.
+    // ///
+    // /// At most a value of 50 is provided although the real number may be
+    // /// higher.
+    // #[serde(skip_serializing_if = "Option::is_none")]
+    // pub message_count: Option<u8>,
     /// Name of the channel.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub name: Option<String>,
-    /// Whether a thread was newly created.
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub newly_created: Option<bool>,
-    /// Whether the channel has been configured to be NSFW.
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub nsfw: Option<bool>,
+    // /// Whether a thread was newly created.
+    // #[serde(skip_serializing_if = "Option::is_none")]
+    // pub newly_created: Option<bool>,
+    // /// Whether the channel has been configured to be NSFW.
+    // #[serde(skip_serializing_if = "Option::is_none")]
+    // pub nsfw: Option<bool>,
     /// ID of the creator of the channel.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub owner_id: Option<Id<UserMarker>>,
@@ -145,33 +143,33 @@ pub struct Channel {
     /// Amount of seconds a user has to wait before sending another message.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub rate_limit_per_user: Option<u64>,
-    /// Recipients of the channel.
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub recipients: Option<Vec<User>>,
-    /// ID of the voice region for the channel.
-    ///
-    /// Defaults to automatic for applicable channels.
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub rtc_region: Option<String>,
+    // /// Recipients of the channel.
+    // #[serde(skip_serializing_if = "Option::is_none")]
+    // pub recipients: Option<Vec<User>>,
+    // /// ID of the voice region for the channel.
+    // ///
+    // /// Defaults to automatic for applicable channels.
+    // #[serde(skip_serializing_if = "Option::is_none")]
+    // pub rtc_region: Option<String>,
     /// Metadata about a thread.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub thread_metadata: Option<ThreadMetadata>,
-    /// Topic of the channel.
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub topic: Option<String>,
-    /// Number of users that may be in the channel.
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub user_limit: Option<u64>,
-    /// Camera video quality mode of the channel.
-    ///
-    /// Defaults to [`VideoQualityMode::Auto`] for applicable channels.
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub video_quality_mode: Option<VideoQualityMode>,
+    // /// Topic of the channel.
+    // #[serde(skip_serializing_if = "Option::is_none")]
+    // pub topic: Option<String>,
+    // /// Number of users that may be in the channel.
+    // #[serde(skip_serializing_if = "Option::is_none")]
+    // pub user_limit: Option<u64>,
+    // /// Camera video quality mode of the channel.
+    // ///
+    // /// Defaults to [`VideoQualityMode::Auto`] for applicable channels.
+    // #[serde(skip_serializing_if = "Option::is_none")]
+    // pub video_quality_mode: Option<VideoQualityMode>,
 }
 
 #[cfg(test)]
 mod tests {
-    use super::{AutoArchiveDuration, Channel, ChannelType, ThreadMember, ThreadMetadata};
+    use super::{Channel, ChannelType, ThreadMetadata, thread::AutoArchiveDuration};
     use crate::{
         channel::permission_overwrite::{PermissionOverwrite, PermissionOverwriteType},
         guild::Permissions,
@@ -211,33 +209,33 @@ mod tests {
         });
 
         let value = Channel {
-            application_id: None,
-            bitrate: None,
-            default_auto_archive_duration: None,
+            // application_id: None,
+            // bitrate: None,
+            // default_auto_archive_duration: None,
             guild_id: Some(Id::new(1)),
-            icon: None,
+            // icon: None,
             id: Id::new(2),
-            invitable: None,
+            // invitable: None,
             kind: ChannelType::GuildText,
             last_message_id: Some(Id::new(3)),
-            last_pin_timestamp: None,
-            member: None,
-            member_count: None,
-            message_count: None,
+            // last_pin_timestamp: None,
+            // member: None,
+            // member_count: None,
+            // message_count: None,
             name: Some("hey".to_owned()),
-            newly_created: None,
-            nsfw: Some(false),
+            // newly_created: None,
+            // nsfw: Some(false),
             owner_id: None,
             parent_id: None,
             permission_overwrites: Some(Vec::new()),
             position: Some(0),
             rate_limit_per_user: Some(0),
-            recipients: None,
-            rtc_region: None,
+            // recipients: None,
+            // rtc_region: None,
             thread_metadata: None,
-            topic: Some("a".to_owned()),
-            user_limit: None,
-            video_quality_mode: None,
+            // topic: Some("a".to_owned()),
+            // user_limit: None,
+            // video_quality_mode: None,
         };
 
         assert_eq!(value, serde_json::from_value(input).unwrap());
@@ -246,33 +244,33 @@ mod tests {
     #[test]
     fn test_guild_category_channel_deserialization() {
         let value = Channel {
-            application_id: None,
-            bitrate: None,
-            default_auto_archive_duration: None,
+            // application_id: None,
+            // bitrate: None,
+            // default_auto_archive_duration: None,
             guild_id: Some(Id::new(2)),
-            icon: None,
+            // icon: None,
             id: Id::new(1),
-            invitable: None,
+            // invitable: None,
             kind: ChannelType::GuildCategory,
             last_message_id: None,
-            last_pin_timestamp: None,
-            member: None,
-            member_count: None,
-            message_count: None,
+            // last_pin_timestamp: None,
+            // member: None,
+            // member_count: None,
+            // message_count: None,
             name: Some("foo".to_owned()),
-            newly_created: None,
-            nsfw: None,
+            // newly_created: None,
+            // nsfw: None,
             owner_id: None,
             parent_id: None,
             permission_overwrites: Some(Vec::new()),
             position: Some(3),
             rate_limit_per_user: None,
-            recipients: None,
-            rtc_region: None,
+            // recipients: None,
+            // rtc_region: None,
             thread_metadata: None,
-            topic: None,
-            user_limit: None,
-            video_quality_mode: None,
+            // topic: None,
+            // user_limit: None,
+            // video_quality_mode: None,
         };
         let permission_overwrites: Vec<PermissionOverwrite> = Vec::new();
 
@@ -293,33 +291,33 @@ mod tests {
     #[test]
     fn test_guild_news_channel_deserialization() {
         let value = Channel {
-            application_id: None,
-            bitrate: None,
-            default_auto_archive_duration: None,
+            // application_id: None,
+            // bitrate: None,
+            // default_auto_archive_duration: None,
             guild_id: Some(Id::new(2)),
-            icon: None,
+            // icon: None,
             id: Id::new(1),
-            invitable: None,
+            // invitable: None,
             kind: ChannelType::GuildNews,
             last_message_id: Some(Id::new(4)),
-            last_pin_timestamp: None,
-            member: None,
-            member_count: None,
-            message_count: None,
+            // last_pin_timestamp: None,
+            // member: None,
+            // member_count: None,
+            // message_count: None,
             name: Some("news".to_owned()),
-            newly_created: None,
-            nsfw: Some(true),
+            // newly_created: None,
+            // nsfw: Some(true),
             owner_id: None,
             parent_id: Some(Id::new(5)),
             permission_overwrites: Some(Vec::new()),
             position: Some(3),
             rate_limit_per_user: None,
-            recipients: None,
-            rtc_region: None,
+            // recipients: None,
+            // rtc_region: None,
             thread_metadata: None,
-            topic: Some("a news channel".to_owned()),
-            user_limit: None,
-            video_quality_mode: None,
+            // topic: Some("a news channel".to_owned()),
+            // user_limit: None,
+            // video_quality_mode: None,
         };
         let permission_overwrites: Vec<PermissionOverwrite> = Vec::new();
 
@@ -347,36 +345,36 @@ mod tests {
         let formatted = timestamp.iso_8601().to_string();
 
         let value = Channel {
-            application_id: None,
-            bitrate: None,
-            default_auto_archive_duration: Some(AutoArchiveDuration::Hour),
+            // application_id: None,
+            // bitrate: None,
+            // default_auto_archive_duration: Some(AutoArchiveDuration::Hour),
             guild_id: Some(Id::new(1)),
-            icon: None,
+            // icon: None,
             id: Id::new(6),
-            invitable: None,
+            // invitable: None,
             kind: ChannelType::GuildNewsThread,
             last_message_id: Some(Id::new(3)),
-            last_pin_timestamp: None,
-            member: Some(ThreadMember {
-                flags: 0_u64,
-                id: Some(Id::new(4)),
-                join_timestamp: timestamp,
-                member: None,
-                presence: None,
-                user_id: Some(Id::new(5)),
-            }),
-            member_count: Some(50_u8),
-            message_count: Some(50_u8),
+            // last_pin_timestamp: None,
+            // member: Some(ThreadMember {
+            //     flags: 0_u64,
+            //     id: Some(Id::new(4)),
+            //     join_timestamp: timestamp,
+            //     member: None,
+            //     presence: None,
+            //     user_id: Some(Id::new(5)),
+            // }),
+            // member_count: Some(50_u8),
+            // message_count: Some(50_u8),
             name: Some("newsthread".into()),
-            newly_created: Some(true),
-            nsfw: None,
+            // newly_created: Some(true),
+            // nsfw: None,
             owner_id: Some(Id::new(5)),
             parent_id: Some(Id::new(2)),
             permission_overwrites: None,
             position: None,
             rate_limit_per_user: Some(1000_u64),
-            recipients: None,
-            rtc_region: None,
+            // recipients: None,
+            // rtc_region: None,
             thread_metadata: Some(ThreadMetadata {
                 archived: false,
                 auto_archive_duration: AutoArchiveDuration::Day,
@@ -385,9 +383,9 @@ mod tests {
                 invitable: None,
                 locked: false,
             }),
-            topic: None,
-            user_limit: None,
-            video_quality_mode: None,
+            // topic: None,
+            // user_limit: None,
+            // video_quality_mode: None,
         };
 
         assert_eq!(
@@ -428,36 +426,36 @@ mod tests {
         let timestamp = Timestamp::from_secs(1_632_074_792).expect("non zero");
 
         let value = Channel {
-            application_id: None,
-            bitrate: None,
-            default_auto_archive_duration: Some(AutoArchiveDuration::Hour),
+            // application_id: None,
+            // bitrate: None,
+            // default_auto_archive_duration: Some(AutoArchiveDuration::Hour),
             guild_id: Some(Id::new(1)),
-            icon: None,
+            // icon: None,
             id: Id::new(6),
-            invitable: None,
+            // invitable: None,
             kind: ChannelType::GuildPublicThread,
             last_message_id: Some(Id::new(3)),
-            last_pin_timestamp: None,
-            member: Some(ThreadMember {
-                flags: 0_u64,
-                id: Some(Id::new(4)),
-                join_timestamp: timestamp,
-                member: None,
-                presence: None,
-                user_id: Some(Id::new(5)),
-            }),
-            member_count: Some(50_u8),
-            message_count: Some(50_u8),
+            // last_pin_timestamp: None,
+            // member: Some(ThreadMember {
+            //     flags: 0_u64,
+            //     id: Some(Id::new(4)),
+            //     join_timestamp: timestamp,
+            //     member: None,
+            //     presence: None,
+            //     user_id: Some(Id::new(5)),
+            // }),
+            // member_count: Some(50_u8),
+            // message_count: Some(50_u8),
             name: Some("publicthread".into()),
-            newly_created: Some(true),
-            nsfw: None,
+            // newly_created: Some(true),
+            // nsfw: None,
             owner_id: Some(Id::new(5)),
             parent_id: Some(Id::new(2)),
             permission_overwrites: None,
             position: None,
             rate_limit_per_user: Some(1000_u64),
-            recipients: None,
-            rtc_region: None,
+            // recipients: None,
+            // rtc_region: None,
             thread_metadata: Some(ThreadMetadata {
                 archived: false,
                 auto_archive_duration: AutoArchiveDuration::Day,
@@ -466,9 +464,9 @@ mod tests {
                 invitable: None,
                 locked: false,
             }),
-            topic: None,
-            user_limit: None,
-            video_quality_mode: None,
+            // topic: None,
+            // user_limit: None,
+            // video_quality_mode: None,
         };
 
         assert_eq!(
@@ -510,29 +508,29 @@ mod tests {
         let formatted = timestamp.iso_8601().to_string();
 
         let value = Channel {
-            application_id: None,
-            bitrate: None,
-            default_auto_archive_duration: Some(AutoArchiveDuration::Hour),
+            // application_id: None,
+            // bitrate: None,
+            // default_auto_archive_duration: Some(AutoArchiveDuration::Hour),
             guild_id: Some(Id::new(1)),
-            icon: None,
+            // icon: None,
             id: Id::new(6),
-            invitable: Some(true),
+            // invitable: Some(true),
             kind: ChannelType::GuildPrivateThread,
             last_message_id: Some(Id::new(3)),
-            last_pin_timestamp: None,
-            member: Some(ThreadMember {
-                flags: 0_u64,
-                id: Some(Id::new(4)),
-                join_timestamp: timestamp,
-                member: None,
-                presence: None,
-                user_id: Some(Id::new(5)),
-            }),
-            member_count: Some(50_u8),
-            message_count: Some(50_u8),
+            // last_pin_timestamp: None,
+            // member: Some(ThreadMember {
+            //     flags: 0_u64,
+            //     id: Some(Id::new(4)),
+            //     join_timestamp: timestamp,
+            //     member: None,
+            //     presence: None,
+            //     user_id: Some(Id::new(5)),
+            // }),
+            // member_count: Some(50_u8),
+            // message_count: Some(50_u8),
             name: Some("privatethread".into()),
-            newly_created: Some(true),
-            nsfw: None,
+            // newly_created: Some(true),
+            // nsfw: None,
             owner_id: Some(Id::new(5)),
             parent_id: Some(Id::new(2)),
             permission_overwrites: Some(Vec::from([PermissionOverwrite {
@@ -543,8 +541,8 @@ mod tests {
             }])),
             position: None,
             rate_limit_per_user: Some(1000_u64),
-            recipients: None,
-            rtc_region: None,
+            // recipients: None,
+            // rtc_region: None,
             thread_metadata: Some(ThreadMetadata {
                 archived: false,
                 auto_archive_duration: AutoArchiveDuration::Day,
@@ -553,9 +551,9 @@ mod tests {
                 invitable: None,
                 locked: false,
             }),
-            topic: None,
-            user_limit: None,
-            video_quality_mode: None,
+            // topic: None,
+            // user_limit: None,
+            // video_quality_mode: None,
         };
 
         assert_eq!(

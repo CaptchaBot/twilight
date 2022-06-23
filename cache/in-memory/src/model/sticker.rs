@@ -155,7 +155,7 @@ mod tests {
             Sticker,
         },
         id::Id,
-        user::{PremiumType, User, UserFlags},
+        user::User,
         util::{image_hash::ImageHashParseError, ImageHash},
     };
 
@@ -199,23 +199,23 @@ mod tests {
             sort_value: Some(1),
             tags: "foo,bar,baz".into(),
             user: Some(User {
-                accent_color: None,
+                // accent_color: None,
                 avatar: Some(avatar),
-                banner: None,
+                // banner: None,
                 bot: false,
                 discriminator: 1,
-                email: Some("address@example.com".to_owned()),
-                flags: Some(UserFlags::PREMIUM_EARLY_SUPPORTER | UserFlags::VERIFIED_DEVELOPER),
+                // email: Some("address@example.com".to_owned()),
+                // flags: Some(UserFlags::PREMIUM_EARLY_SUPPORTER | UserFlags::VERIFIED_DEVELOPER),
                 id: Id::new(1),
-                locale: Some("en-us".to_owned()),
-                mfa_enabled: Some(true),
+                // locale: Some("en-us".to_owned()),
+                // mfa_enabled: Some(true),
                 name: "test".to_owned(),
-                premium_type: Some(PremiumType::Nitro),
-                public_flags: Some(
-                    UserFlags::PREMIUM_EARLY_SUPPORTER | UserFlags::VERIFIED_DEVELOPER,
-                ),
-                system: Some(true),
-                verified: Some(true),
+                // premium_type: Some(PremiumType::Nitro),
+                // public_flags: Some(
+                //     UserFlags::PREMIUM_EARLY_SUPPORTER | UserFlags::VERIFIED_DEVELOPER,
+                // ),
+                // system: Some(true),
+                // verified: Some(true),
             }),
         };
 

@@ -1,6 +1,6 @@
 use crate::{
     config::ResourceType,
-    model::{member::ComputedInteractionMemberFields, CachedMember},
+    model::CachedMember,
     InMemoryCache, UpdateCache,
 };
 use std::borrow::Cow;
@@ -75,11 +75,11 @@ impl InMemoryCache {
     ) {
         let id = (guild_id, user_id);
 
-        let (avatar, deaf, mute) = match self.members.get(&id) {
-            Some(m) if &*m == member => return,
-            Some(m) => (m.avatar(), m.deaf(), m.mute()),
-            None => (None, None, None),
-        };
+        // let (avatar, deaf, mute) = match self.members.get(&id) {
+        //     Some(m) if &*m == member => return,
+        //     Some(m) => (m.avatar(), m.deaf(), m.mute()),
+        //     None => (None, None, None),
+        // };
 
         self.guild_members
             .entry(guild_id)
@@ -90,7 +90,6 @@ impl InMemoryCache {
             guild_id,
             user_id,
             member.clone(),
-            ComputedInteractionMemberFields { avatar, deaf, mute },
         );
 
         self.members.insert(id, cached);
@@ -99,11 +98,11 @@ impl InMemoryCache {
 
 impl UpdateCache for MemberAdd {
     fn update(&self, cache: &InMemoryCache) {
-        if cache.wants(ResourceType::GUILD) {
-            if let Some(mut guild) = cache.guilds.get_mut(&self.guild_id) {
-                guild.member_count = guild.member_count.map(|count| count + 1);
-            }
-        }
+        // if cache.wants(ResourceType::GUILD) {
+        //     if let Some(mut guild) = cache.guilds.get_mut(&self.guild_id) {
+        //         guild.member_count = guild.member_count.map(|count| count + 1);
+        //     }
+        // }
 
         if !cache.wants(ResourceType::MEMBER) {
             return;
@@ -137,11 +136,11 @@ impl UpdateCache for MemberChunk {
 
 impl UpdateCache for MemberRemove {
     fn update(&self, cache: &InMemoryCache) {
-        if cache.wants(ResourceType::GUILD) {
-            if let Some(mut guild) = cache.guilds.get_mut(&self.guild_id) {
-                guild.member_count = guild.member_count.map(|count| count - 1);
-            }
-        }
+        // if cache.wants(ResourceType::GUILD) {
+        //     if let Some(mut guild) = cache.guilds.get_mut(&self.guild_id) {
+        //         guild.member_count = guild.member_count.map(|count| count - 1);
+        //     }
+        // }
 
         if !cache.wants(ResourceType::MEMBER) {
             return;
@@ -183,14 +182,14 @@ impl UpdateCache for MemberUpdate {
             return;
         };
 
-        member.avatar = self.avatar;
-        member.deaf = self.deaf.or_else(|| member.deaf());
-        member.mute = self.mute.or_else(|| member.mute());
-        member.nick = self.nick.clone();
+        // member.avatar = self.avatar;
+        // member.deaf = self.deaf.or_else(|| member.deaf());
+        // member.mute = self.mute.or_else(|| member.mute());
+        // member.nick = self.nick.clone();
         member.roles = self.roles.clone();
         member.joined_at = self.joined_at;
         member.pending = self.pending;
-        member.communication_disabled_until = self.communication_disabled_until;
+        // member.communication_disabled_until = self.communication_disabled_until;
     }
 }
 

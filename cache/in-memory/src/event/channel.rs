@@ -66,9 +66,9 @@ impl UpdateCache for ChannelPinsUpdate {
             return;
         }
 
-        if let Some(mut channel) = cache.channels.get_mut(&self.channel_id) {
-            channel.last_pin_timestamp = self.last_pin_timestamp;
-        }
+        // if let Some(mut channel) = cache.channels.get_mut(&self.channel_id) {
+        //     channel.last_pin_timestamp = self.last_pin_timestamp;
+        // }
     }
 }
 
