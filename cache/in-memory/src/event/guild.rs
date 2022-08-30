@@ -258,7 +258,7 @@ impl UpdateCache for GuildUpdate {
             // guild.max_members = self.max_members;
             // guild.max_presences = Some(self.max_presences.unwrap_or(25000));
             // guild.mfa_level = self.mfa_level;
-            // guild.name = self.name.clone();
+            guild.name = self.name.clone();
             // guild.nsfw_level = self.nsfw_level;
             // guild.owner = self.owner;
             guild.owner_id = self.owner_id;
