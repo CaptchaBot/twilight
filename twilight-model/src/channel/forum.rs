@@ -106,16 +106,16 @@ impl<'de> Deserialize<'de> for ForumTag {
                             let value: Value = map.next_value()?;
 
                             let possible_id = match value {
-                                Value::U64(val) => Some(val), 
-                                Value::Option(Some(value)) => {
-                                    match *value {
-                                        Value::Newtype(newtype) => if let Value::String(string) = *newtype {
+                                Value::U64(val) => Some(val),
+                                Value::Option(Some(value)) => match *value {
+                                    Value::Newtype(newtype) => {
+                                        if let Value::String(string) = *newtype {
                                             Some(string.parse::<u64>().unwrap())
                                         } else {
                                             None
-                                        },
-                                        _ => None
+                                        }
                                     }
+                                    _ => None,
                                 },
                                 _ => None,
                             };
@@ -167,13 +167,11 @@ impl<'de> Deserialize<'de> for ForumTag {
             }
         }
 
-        deserializer.deserialize_struct("ForumTag", &[
-            "emoji_id",
-            "emoji_name",
-            "id",
-            "moderated",
-            "name"
-        ], ForumTagVisitor)
+        deserializer.deserialize_struct(
+            "ForumTag",
+            &["emoji_id", "emoji_name", "id", "moderated", "name"],
+            ForumTagVisitor,
+        )
     }
 }
 
