@@ -1,8 +1,13 @@
+use std::fmt::Formatter;
+
 use crate::id::{
     marker::{EmojiMarker, TagMarker},
     Id,
 };
-use serde::{Deserialize, Serialize};
+use serde::{
+    de::{Error, IgnoredAny, MapAccess, Visitor},
+    Deserialize, Serialize,
+};
 
 /// Emoji to use as the default way to react to a forum post.
 ///
@@ -25,7 +30,7 @@ pub struct DefaultReaction {
 ///
 /// [`Channel`]: super::Channel
 /// [`GuildForum`]: super::ChannelType::GuildForum
-#[derive(Clone, Debug, Deserialize, Eq, Hash, PartialEq, Serialize)]
+#[derive(Clone, Debug, Eq, Hash, PartialEq, Serialize)]
 pub struct ForumTag {
     /// ID of custom guild emoji.
     ///
@@ -45,6 +50,113 @@ pub struct ForumTag {
     pub moderated: bool,
     /// Name of the tag (0--20 characters).
     pub name: String,
+}
+
+impl<'de> Deserialize<'de> for ForumTag {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[derive(Debug, Deserialize)]
+        #[serde(field_identifier, rename_all = "snake_case")]
+        enum Field {
+            EmojiId,
+            EmojiName,
+            Id,
+            Moderated,
+            Name,
+        }
+
+        struct ForumTagVisitor {}
+
+        impl<'de> Visitor<'de> for ForumTagVisitor {
+            type Value = ForumTag;
+
+            fn expecting(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+                f.write_str("struct ForumTag")
+            }
+
+            fn visit_map<V: MapAccess<'de>>(self, mut map: V) -> Result<Self::Value, V::Error> {
+                let mut emoji_id = None::<Option<Id<EmojiMarker>>>;
+                let mut emoji_name = None::<Option<String>>;
+                let mut id = None::<Id<TagMarker>>;
+                let mut moderated = None::<bool>;
+                let mut name = None::<String>;
+
+                loop {
+                    let key = match map.next_key() {
+                        Ok(Some(key)) => key,
+                        Ok(None) => break,
+                        Err(why) => {
+                            map.next_value::<IgnoredAny>()?;
+
+                            tracing::trace!("ran into an unknown key: {why:?}");
+
+                            continue;
+                        }
+                    };
+
+                    match key {
+                        Field::EmojiId => {
+                            if emoji_id.is_some() {
+                                return Err(Error::duplicate_field("emoji_id"));
+                            }
+
+                            let value: u64 = map.next_value()?;
+
+                            if value > 0 {
+                                emoji_id = Some(Some(Id::new(value)));
+                            }
+                        }
+                        Field::EmojiName => {
+                            if emoji_name.is_some() {
+                                return Err(Error::duplicate_field("emoji_name"));
+                            }
+
+                            emoji_name = Some(map.next_value()?);
+                        }
+                        Field::Id => {
+                            if id.is_some() {
+                                return Err(Error::duplicate_field("id"));
+                            }
+
+                            id = Some(map.next_value()?);
+                        }
+                        Field::Moderated => {
+                            if moderated.is_some() {
+                                return Err(Error::duplicate_field("moderated"));
+                            }
+
+                            moderated = Some(map.next_value()?);
+                        }
+                        Field::Name => {
+                            if name.is_some() {
+                                return Err(Error::duplicate_field("name"));
+                            }
+
+                            name = Some(map.next_value()?);
+                        }
+                    }
+                }
+
+                Ok(ForumTag {
+                    emoji_id: emoji_id.unwrap_or_default(),
+                    emoji_name: emoji_name.unwrap_or_default(),
+                    id: id.ok_or_else(|| Error::missing_field("id"))?,
+                    moderated: moderated.ok_or_else(|| Error::missing_field("moderated"))?,
+                    name: name.ok_or_else(|| Error::missing_field("name"))?,
+                })
+            }
+        }
+
+        deserializer.deserialize_struct("ForumTag", &[
+            "emoji_id",
+            "emoji_name",
+            "id",
+            "moderated",
+            "name"
+        ], ForumTagVisitor {})
+    }
 }
 
 #[cfg(test)]
@@ -117,4 +229,21 @@ mod tests {
             ],
         );
     }
+
+    // #[test]
+    // fn forum_tag_emoji_id_zero() {
+    //     let _value = ForumTag {
+    //         emoji_id: None,
+    //         emoji_name: Some("emoji_name".into()),
+    //         id: TAG_ID,
+    //         moderated: false,
+    //         name: "other".into(),
+    //     };
+
+    //     let e = serde_json::from_str::<ForumTag>("{\n   \"name\":\"other\",\n   \"moderated\":false,\n   \"id\":\"2\",\n   \"emoji_name\":\"emoji_name\",\n   \"emoji_id\":0\n}");
+
+    //     println!("{:?}", e);
+
+    //     // assert!(e.is_err(), "should not error")
+    // }
 }
