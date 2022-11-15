@@ -8,6 +8,7 @@ use serde::{
     de::{Error, IgnoredAny, MapAccess, Visitor},
     Deserialize, Serialize,
 };
+use serde_value::Value;
 
 /// Emoji to use as the default way to react to a forum post.
 ///
@@ -67,7 +68,7 @@ impl<'de> Deserialize<'de> for ForumTag {
             Name,
         }
 
-        struct ForumTagVisitor {}
+        struct ForumTagVisitor;
 
         impl<'de> Visitor<'de> for ForumTagVisitor {
             type Value = ForumTag;
@@ -77,7 +78,7 @@ impl<'de> Deserialize<'de> for ForumTag {
             }
 
             fn visit_map<V: MapAccess<'de>>(self, mut map: V) -> Result<Self::Value, V::Error> {
-                let mut emoji_id = None::<Option<Id<EmojiMarker>>>;
+                let mut emoji_id = None::<Id<_>>;
                 let mut emoji_name = None::<Option<String>>;
                 let mut id = None::<Id<TagMarker>>;
                 let mut moderated = None::<bool>;
@@ -102,10 +103,27 @@ impl<'de> Deserialize<'de> for ForumTag {
                                 return Err(Error::duplicate_field("emoji_id"));
                             }
 
-                            let value: u64 = map.next_value()?;
+                            let value: Value = map.next_value()?;
 
-                            if value > 0 {
-                                emoji_id = Some(Some(Id::new(value)));
+                            let possible_id = match value {
+                                Value::U64(val) => Some(val), 
+                                Value::Option(Some(value)) => {
+                                    match *value {
+                                        Value::Newtype(newtype) => if let Value::String(string) = *newtype {
+                                            Some(string.parse::<u64>().unwrap())
+                                        } else {
+                                            None
+                                        },
+                                        _ => None
+                                    }
+                                },
+                                _ => None,
+                            };
+
+                            if let Some(id) = possible_id {
+                                if id > 0 {
+                                    emoji_id = Some(Id::new(id));
+                                }
                             }
                         }
                         Field::EmojiName => {
@@ -140,7 +158,7 @@ impl<'de> Deserialize<'de> for ForumTag {
                 }
 
                 Ok(ForumTag {
-                    emoji_id: emoji_id.unwrap_or_default(),
+                    emoji_id,
                     emoji_name: emoji_name.unwrap_or_default(),
                     id: id.ok_or_else(|| Error::missing_field("id"))?,
                     moderated: moderated.ok_or_else(|| Error::missing_field("moderated"))?,
@@ -155,7 +173,7 @@ impl<'de> Deserialize<'de> for ForumTag {
             "id",
             "moderated",
             "name"
-        ], ForumTagVisitor {})
+        ], ForumTagVisitor)
     }
 }
 
@@ -205,7 +223,7 @@ mod tests {
             name: "other".into(),
         };
 
-        serde_test::assert_tokens(
+        serde_test::assert_de_tokens(
             &value,
             &[
                 Token::Struct {
@@ -230,20 +248,15 @@ mod tests {
         );
     }
 
-    // #[test]
-    // fn forum_tag_emoji_id_zero() {
-    //     let _value = ForumTag {
-    //         emoji_id: None,
-    //         emoji_name: Some("emoji_name".into()),
-    //         id: TAG_ID,
-    //         moderated: false,
-    //         name: "other".into(),
-    //     };
+    #[test]
+    fn forum_tag_emoji_id_zero() {
+        let deserialized = serde_json::from_str::<ForumTag>("{\n   \"name\":\"other\",\n   \"moderated\":false,\n   \"id\":\"2\",\n   \"emoji_name\":\"emoji_name\",\n   \"emoji_id\":0\n}");
 
-    //     let e = serde_json::from_str::<ForumTag>("{\n   \"name\":\"other\",\n   \"moderated\":false,\n   \"id\":\"2\",\n   \"emoji_name\":\"emoji_name\",\n   \"emoji_id\":0\n}");
+        assert!(deserialized.is_ok());
 
-    //     println!("{:?}", e);
+        let tag = deserialized.unwrap();
 
-    //     // assert!(e.is_err(), "should not error")
-    // }
+        assert!(tag.emoji_id.is_none());
+        assert!(tag.emoji_name.is_some());
+    }
 }
