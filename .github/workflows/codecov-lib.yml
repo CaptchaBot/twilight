@@ -1,8 +1,6 @@
 name: "Code Coverage"
 
 on:
-  schedule:
-    - cron: 13 9 * * *
   workflow_dispatch:
 
 env:
